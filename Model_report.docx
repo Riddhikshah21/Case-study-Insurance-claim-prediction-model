@@ -5,6 +5,7 @@ The report represents the development of a machine learning model to predict aut
 The model achieves 83% accuracy and identifies key factors influencing claim likelihood.
 
 1. Data Processing Steps
+
 a. Data Cleaning & Preprocessing
 - Check for null/missing values - No null values found in the dataset ensuring a compete input for analysis
 - Encoded categorical variables:
@@ -26,6 +27,7 @@ c. Risk Segments
 - This can support decisions for higher premiums or proactive interventions for high-risk customers.
 
 2. Model Approach
+
 a. Rationale behind Model Selection: Random Forest Classifier:
 - Handles both numerical and categorical features effectively
 - Robust to outliers and non-linear relationships - unable to find relationship between features such as age vs claim probability.
@@ -40,8 +42,9 @@ b. Model Configuration
   - Default parameters for other settings to avoid overfitting
 
 3. Model Performance
-- Accuracy: 83%
-Classification Report:
+
+a. Accuracy: 83%
+b. Classification Report:
               precision    recall  f1-score   support
 
            0       0.89      0.90      0.90     63789
@@ -51,19 +54,20 @@ Classification Report:
    macro avg       0.68      0.67      0.67     76431
 weighted avg       0.82      0.83      0.82     76431
 
-Confusion Matrix Explanation:
+c. Confusion Matrix Explanation:
 
     True Negatives (TN): 57703 - Correctly predicted no claim
     False Positives (FP): 6086 - Incorrectly predicted claim
     False Negatives (FN): 7159 - Missed actual claims
     True Positives (TP): 5483 - Correctly predicted claims
     
-- ROC-AUC: 0.86 
+d. ROC-AUC: 0.86 
   * A ROC-AUC score of 0.86 means that the model has good performance at distinguishing between the two classes 
 (e.g., whether a customer will submit a claim or not) across all possible classification thresholds.
 - These metrics reflect the model’s effectiveness in predicting claims accurately while balancing false positives and false negatives
 
 4. Hyper parameter tuning
+
 a. GridSearchCV
 - A grid search with cross-validation (GridSearchCV) was used to explore optimal parameters. 
 - The method facilitated tuning the model by evaluating different combinations of model hyperparameters.
@@ -86,7 +90,8 @@ Model performance:
 weighted avg       0.81      0.75      0.72     76431
 
 b. RandomizedSearchCV
-- Best model parameters using RandomizedSearchCV: RandomForestClassifier(max_depth=6, max_leaf_nodes=9)
+- A RandomizedSearch with cross-validation (RandomizedSearchCV) was used to explore optimal parameters.
+- Best model parameters using RandomizedSearchCV: RandomForestClassifier(max_depth=6, max_leaf_nodes=6)
 - Model performance:
 
               precision    recall  f1-score   support
@@ -100,6 +105,7 @@ weighted avg       0.81      0.75      0.72     76431
 
 
 5. Limitations and Assumptions
+
 a. Data Limitations
 - Limited sample size
 - Assumed one vehicle per customer
@@ -110,7 +116,8 @@ b. Model Limitations
 - Solely dependent on the historical data and patterns
 
 6. Technical Implementation Details
-Python is primary programming language to develop model for predicting insurance claims
+
+programming language: Python is primary programming language to develop model for predicting insurance claims
 Libraries:
 - pandas for data manipulation
 - numpy for numerical operations 
