@@ -1,0 +1,118 @@
+Project Report: Insurance Claim Prediction Model
+
+** Summary **
+The report represents the development of a machine learning model to predict automobile insurance claims based on customer and policy data. 
+The model achieves 83% accuracy and identifies key factors influencing claim likelihood.
+
+1. Data Processing Steps
+a. Data Cleaning & Preprocessing
+- Check for null/missing values - No null values found in the dataset ensuring a compete input for analysis
+- Encoded categorical variables:
+  - Gender (Male/Female) -> (0/1)
+  - Vehicle Age (< 1 Year, 1-2 Year, > 2 Year) -> (0,1,2)
+  - Previous Vehicle Damage (Yes/No) -> (0/1)
+- Numerical features:
+  - Age
+  - Annual Premium
+  - Region Code
+  - Policy Sales Channel
+
+b. Feature Engineering
+- No derived features were created due to limited domain knowledge
+- Maintained original features to ensure model interpretability
+
+c. Risk Segments
+- High-risk segment has a much higher claim rate compared to the low-risk segment.
+- This can support decisions for higher premiums or proactive interventions for high-risk customers.
+
+2. Model Approach
+a. Rationale behind Model Selection: Random Forest Classifier:
+- Handles both numerical and categorical features effectively
+- Robust to outliers and non-linear relationships - unable to find relationship between features such as age vs claim probability.
+- Provides feature importance which can be helpful for business insights regarding the variables most closely associated with claim likelihood.
+- Helps reduce overfitting 
+
+b. Model Configuration
+- Train-test split: 80/20
+- Model parameters:
+  - n_estimators: 100
+  - random_state: 42
+  - Default parameters for other settings to avoid overfitting
+
+3. Model Performance
+- Accuracy: 83%
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.89      0.90      0.90     63789
+           1       0.47      0.43      0.45     12642
+
+    accuracy                           0.83     76431
+   macro avg       0.68      0.67      0.67     76431
+weighted avg       0.82      0.83      0.82     76431
+
+Confusion Matrix Explanation:
+
+    True Negatives (TN): 57703 - Correctly predicted no claim
+    False Positives (FP): 6086 - Incorrectly predicted claim
+    False Negatives (FN): 7159 - Missed actual claims
+    True Positives (TP): 5483 - Correctly predicted claims
+    
+- ROC-AUC: 0.86 
+  * A ROC-AUC score of 0.86 means that the model has good performance at distinguishing between the two classes 
+(e.g., whether a customer will submit a claim or not) across all possible classification thresholds.
+- These metrics reflect the model’s effectiveness in predicting claims accurately while balancing false positives and false negatives
+
+4. Hyper parameter tuning
+a. GridSearchCV
+- A grid search with cross-validation (GridSearchCV) was used to explore optimal parameters. 
+- The method facilitated tuning the model by evaluating different combinations of model hyperparameters.
+- combinations used: 
+param_grid = { 
+    'n_estimators': [50, 100], 
+    'max_features': ['sqrt', 'log2'], 
+    'max_depth': [6, 9], 
+    'max_leaf_nodes': [6, 9], 
+}
+- Best model parameters using GridSearchCV: RandomForestClassifier(max_depth=6, max_leaf_nodes=6, n_estimators=50)
+Model performance:
+              precision    recall  f1-score   support
+
+           0       0.71      0.99      0.83     46208
+           1       0.95      0.40      0.56     30223
+
+    accuracy                           0.75     76431
+   macro avg       0.83      0.69      0.69     76431
+weighted avg       0.81      0.75      0.72     76431
+
+b. RandomizedSearchCV
+- Best model parameters using RandomizedSearchCV: RandomForestClassifier(max_depth=6, max_leaf_nodes=9)
+- Model performance:
+
+              precision    recall  f1-score   support
+
+           0       0.71      0.99      0.83     46219
+           1       0.95      0.40      0.56     30212
+
+    accuracy                           0.75     76431
+   macro avg       0.83      0.69      0.69     76431
+weighted avg       0.81      0.75      0.72     76431
+
+
+5. Limitations and Assumptions
+a. Data Limitations
+- Limited sample size
+- Assumed one vehicle per customer
+- Assumed all accidents result in claims
+
+b. Model Limitations
+- No external factors were taken into account (weather forecast, road conditions (under construction)).
+- Solely dependent on the historical data and patterns
+
+6. Technical Implementation Details
+Python is primary programming language to develop model for predicting insurance claims
+Libraries:
+- pandas for data manipulation
+- numpy for numerical operations 
+- scikit-learn for modeling and data encoding
+- matplotlib/seaborn for visualization
